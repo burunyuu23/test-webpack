@@ -58,7 +58,7 @@ button {
     }
 }
 
-.img {
-    @include image(50%, auto, 50px);
+#aster__img {
+    @include image(480px, 480px, 50px);
 }
 
