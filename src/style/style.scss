@@ -69,8 +69,17 @@ button {
     }
 }
 
+.img {
+    display: flex;
+    justify-content: center;
+}
 #aster__img {
-    @include image(300px, 300px, 50px);
+    @media only screen and (min-width: 500px) {
+        @include image(300px, 300px, 50px);
+    }
+    @media only screen and (max-width: 500px) {
+        @include image(175px, 175px, 50px);
+    }
     position: absolute;
 }
 
