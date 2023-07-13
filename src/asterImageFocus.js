@@ -62,7 +62,7 @@ function handleMouseMove(event, id) {
     for (let i = 0; i<img.length;i++) {
         img[i].style.boxShadow  = `${Math.pow(-1, i)*(imgCenter.x-mousePoint.x)/5}px ${Math.pow(-1, (i+1)%3)*(imgCenter.y-mousePoint.y)/5}px ${max}px ${color[i]}ff`
         if (started)
-            img[i].style.transition = `box-shadow 0s ease`
+            img[i].style.transition = `box-shadow 0s ease, filter 0.5s ease`
         img[1].style.filter = `blur(25px) drop-shadow(0 0 50px black)`
     }
 }
@@ -122,7 +122,7 @@ function handleMouseEnter(event, id) {
         for (let i = 0; i<img.length;i++) {
             img[1].style.filter = `blur(25px) drop-shadow(0 0 2px black)`
             if (started)
-                img[i].style.transition  = `box-shadow 0.6s ease`
+                img[i].style.transition  = `box-shadow 0.6s ease, filter 0.5s ease`
             color[i] = getRandomColor()
             img[i].style.boxShadow  = `${Math.pow(-1, i+1)*(imgCenter.x-mousePoint.x)/5}px ${Math.pow(-1, (i+1)%3)*(imgCenter.y-mousePoint.y)/5}px ${max}px ${color[i]}66`
         }
