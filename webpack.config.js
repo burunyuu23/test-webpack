@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require('path') 
 
 const mode = process.env.NODE_ENV || 'development';
@@ -16,10 +17,13 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         clean: true,
-        filename: 'index.[contenthash].js',
+        filename: '[name].[contenthash].js',
     },
     plugins: [new HtmlWebpackPlugin({
         template: path.resolve(__dirname, 'src', 'index.html')
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name].[contenthash].css'
         }),
     ],
     module: {
@@ -32,13 +36,22 @@ module.exports = {
               test: /\.s[ac]ss$/i,
               use: [
                 // Creates `style` nodes from JS strings
-                "style-loader",
+                devMode ? "style-loader" : MiniCssExtractPlugin.loader,
                 // Translates CSS into CommonJS
                 "css-loader",
+                {
+                    loader: "postcss-loader",
+                    options: {
+                        postcssOptions: {
+                            plugins: [require('postcss-preset-env')],
+                        }
+                    }
+                },
                 // Compiles Sass to CSS
                 "sass-loader",
               ],
             },
+
         ]
     }
 
