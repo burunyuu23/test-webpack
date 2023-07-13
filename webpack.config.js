@@ -13,7 +13,12 @@ module.exports = {
     mode,
     target,
     devtool,
-    entry: path.resolve(__dirname, 'src', 'index.js'),
+    devServer: {
+        port: 3000,
+        open: true,
+        hot: true,
+    },
+    entry: ['@babel/polyfill', path.resolve(__dirname, 'src', 'index.js')],
     output: {
         path: path.resolve(__dirname, 'dist'),
         clean: true,
@@ -51,7 +56,25 @@ module.exports = {
                 "sass-loader",
               ],
             },
-
+            {
+                test: /\.woff2?$/i,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'fonts/[name][ext]'
+                }
+            },
+            {
+                test: /\.(?:js|mjs|cjs)$/,
+                exclude: /node_modules/,
+                use: {
+                  loader: 'babel-loader',
+                  options: {
+                    presets: [
+                      ['@babel/preset-env', { targets: "defaults" }]
+                    ]
+                  }
+                }
+            }
         ]
     }
 
