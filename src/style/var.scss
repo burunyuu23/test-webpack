@@ -4,4 +4,38 @@
     align-items: center;
 }
 
+@mixin image($w, $h, $shadow_size) {
+    width: $w;
+    height: $h;
+    background-size: contain;
+    box-shadow: 0 0 0 transparent;
+    pointer-events: visible;
+
+    &:hover {
+        // animation: redAnimation 12s ease infinite;
+        // transition: all 2s ease-in;
+    }
+
+    @keyframes redAnimation {
+        from {
+            box-shadow: 0 0 $shadow_size red;
+        }
+        20% {
+            box-shadow: 20px 20px $shadow_size red;
+        }
+        40% {
+            box-shadow: 0 20px $shadow_size red;
+        }
+        60% {
+            box-shadow: -20px 0 $shadow_size red;
+        }
+        80% {
+            box-shadow: -20px -20px $shadow_size red;
+        }
+        to {
+            box-shadow: 0 0 $shadow_size red;
+        }
+    }
+}
+
 $header_clr: teal;

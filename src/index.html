@@ -11,6 +11,53 @@
             counter_1 += 1;
             document.getElementById(id).innerText = counter_1;
         }
+
+        function css(element, style) {
+            for (const property in style)
+                element.style[property] = style[property];
+        }
+
+        function handleMouseMove(event, id) {
+            const img = document.getElementById(id)
+            let imgCenter = {
+                x: img.getBoundingClientRect().x + img.getBoundingClientRect().width/2, 
+                y: img.getBoundingClientRect().y + img.getBoundingClientRect().height/2
+            }
+            let mousePoint = {
+                x: event.clientX,
+                y: event.clientY,
+            }
+
+            img.style.boxShadow  = `${(imgCenter.x-mousePoint.x)/10}px ${(imgCenter.y-mousePoint.y)/10}px 20px red`
+        }
+
+        function handleMouseLeave(event, id) {
+            const img = document.getElementById(id)
+  
+            let imgCenter = {
+                x: img.getBoundingClientRect().x + img.getBoundingClientRect().width/2, 
+                y: img.getBoundingClientRect().y + img.getBoundingClientRect().height/2
+            }
+            let mousePoint = {
+                x: event.clientX,
+                y: event.clientY,
+            }
+
+            img.style.transition  = `box-shadow 0.5s ease`
+            img.style.boxShadow  = `${(imgCenter.x-mousePoint.x)/10}px ${(imgCenter.y-mousePoint.y)/10}px 20px transparent`
+            setTimeout(() => {
+                img.style.transition  = `all 0s ease`
+            }
+            , 500);
+        }
+        function handleMouseEnter(event, id) {
+            const img = document.getElementById(id)
+  
+            img.style.transition  = `box-shadow 0.5s ease`
+            setTimeout(() =>
+                img.style.transition  = `all 0s ease`
+            , 500);
+        }
     </script>
 </head>
 
@@ -35,6 +82,14 @@
             <h1>Count: 
                 <span id="counter_1">0</span>
             </h1>
+            <img class="img" 
+            id="aster__img" 
+            src="img/aster.jpg" 
+            alt=""
+            onmousemove="handleMouseMove(event, 'aster__img')"
+            onmouseleave="handleMouseLeave(event, 'aster__img')"
+            onmouseenter="handleMouseEnter(event, 'aster__img')"
+            >
         </div>
     </div>
 </body>

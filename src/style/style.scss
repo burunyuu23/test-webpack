@@ -58,3 +58,7 @@ button {
     }
 }
 
+.img {
+    @include image(50%, auto, 50px);
+}
+
