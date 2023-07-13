@@ -1,0 +1,59 @@
+@import "./var.scss";
+
+* {
+    margin: 0;
+}
+
+header {
+    background-color: $header_clr;
+    height: 50px;
+    width: 100vw;
+
+    font-size: 50px;
+    color: white;
+
+    @include container();
+}
+
+.app {
+    margin: 0;
+
+    &__content{
+        @include container();
+        justify-content: center;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+
+    table, td {
+    border: 1px solid #333;
+    }
+    td, thead, tfoot {
+        padding: 10px;
+    }
+
+thead,
+tfoot {
+    background-color: #333;
+    color: #fff;
+}
+}
+
+button {
+    background-color: transparent;
+    border-radius: 30% 0;
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+    
+    transition: box-shadow 0.5s ease-in, background-color 0.2s ease-in;
+
+    &:hover {
+        box-shadow: 0 0 20px black;
+    }
+
+    &:active {
+        background-color: red;
+    }
+}
+
