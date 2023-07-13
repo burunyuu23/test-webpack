@@ -2,10 +2,12 @@
 
 * {
     margin: 0;
+    width: 100%;
 }
 
 header {
     font-family: 'Glamic';
+    position: fixed;
     background-color: $header_clr;
     height: 50px;
     width: 100vw;
@@ -18,16 +20,25 @@ header {
 
 .app {
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     &__content{
         @include container();
+        margin-top: 100px;
+        width: 300px;
         justify-content: center;
         flex-direction: column;
         row-gap: 20px;
+
+        .counter {
+            text-align: center;
+        }
     }
 
     table, td {
-    border: 1px solid #333;
+        border: 1px solid #333;
     }
     td, thead, tfoot {
         padding: 10px;
@@ -59,6 +70,7 @@ button {
 }
 
 #aster__img {
-    @include image(480px, 480px, 50px);
+    @include image(300px, 300px, 50px);
+    position: absolute;
 }
 
