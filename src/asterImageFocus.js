@@ -41,7 +41,6 @@ function getRandomColor() {
 
 function handleMouseMove(event, id) {
     const img = document.getElementsByClassName(id)
-    console.log(img);
     imgCenter = {
         x: img[0].x + img[0].width/2, 
         y: img[0].y + img[0].height/2
@@ -107,7 +106,6 @@ function handleMouseLeave(event, id) {
 
 function handleMouseEnter(event, id) {
     const img = document.getElementsByClassName(id)
-    console.log(img);
 
     imgCenter = {
         x: img[0].x + img[0].width/2, 
