@@ -1,21 +1,34 @@
 
+document.addEventListener("DOMContentLoaded", onStart);
+
 let counter_1 = 0;
 function handleClick(event, id) {
     counter_1 += 1;
     document.getElementById(id).innerText = counter_1;
 }
 
+let color;
 function onStart() {
-    let img = document.getElementById("aster__img")
-    img.addEventListener("touchstart", (event) => handleMouseEnter(event, "aster__img"), false);
-    img.addEventListener("touchend", (event) => handleMouseLeave(event, "aster__img"), false);
-    img.addEventListener("touchcancel", (event) => handleMouseLeave(event, "aster__img"), false);
-    img.addEventListener("touchmove", (event) => handleMouseMove(event, "aster__img"), false);
-}
+    let imgs = document.getElementsByClassName("aster__img")
+    color = Array(imgs.length).fill(getRandomColor())
+    for (let i = 0;i<imgs.length;i++) {
+        imgs[i].addEventListener("touchstart", (event) => handleMouseEnter(event, "aster__img"), false);
+        imgs[i].addEventListener("touchend", (event) => handleMouseLeave(event, "aster__img"), false);
+        imgs[i].addEventListener("touchcancel", (event) => handleMouseLeave(event, "aster__img"), false);
+        imgs[i].addEventListener("touchmove", (event) => handleMouseMove(event, "aster__img"), false);
+        
+        imgs[i].addEventListener("mousemove", (event) => handleMouseMove(event, "aster__img"), false);
+        imgs[i].addEventListener("mouseenter", (event) => handleMouseEnter(event, "aster__img"), false);
+        imgs[i].addEventListener("mouseleave", (event) => handleMouseLeave(event, "aster__img"), false);
+        }
+        imgs[1].style.filter = `blur(15px) drop-shadow(0 0 50px black)`
+    }
+    
 
 let mousePoint;
 let imgCenter;
 let max;
+let started = false;
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
@@ -27,10 +40,11 @@ function getRandomColor() {
 }
 
 function handleMouseMove(event, id) {
-    const img = document.getElementById(id)
+    const img = document.getElementsByClassName(id)
+    console.log(img);
     imgCenter = {
-        x: img.getBoundingClientRect().x + img.getBoundingClientRect().width/2, 
-        y: img.getBoundingClientRect().y + img.getBoundingClientRect().height/2
+        x: img[0].x + img[0].width/2, 
+        y: img[0].y + img[0].height/2
     }
 
     if (event.type === "touchmove") {
@@ -45,10 +59,14 @@ function handleMouseMove(event, id) {
     
     max = Math.max(Math.abs((imgCenter.x-mousePoint.x)/2), Math.abs((imgCenter.y-mousePoint.y)/2));
 
-    img.style.boxShadow  = `${(imgCenter.x-mousePoint.x)/5}px ${(imgCenter.y-mousePoint.y)/5}px ${max}px ${color}`
+    for (let i = 0; i<img.length;i++) {
+        img[i].style.boxShadow  = `${Math.pow(-1, i)*(imgCenter.x-mousePoint.x)/5}px ${Math.pow(-1, (i+1)%3)*(imgCenter.y-mousePoint.y)/5}px ${max}px ${color[i]}ff`
+        if (started)
+            img[i].style.transition = `box-shadow 0s ease`
+        img[1].style.filter = `blur(25px) drop-shadow(0 0 50px black)`
+    }
 }
 
-let color = getRandomColor();
 let lastCall = Date.now()
 let previousCall = lastCall
 let lastCallTimer = null
@@ -56,7 +74,7 @@ let colorChanger = null
 const timerMs = 500
 
 function handleMouseLeave(event, id) {
-    const img = document.getElementById(id)
+    const img = document.getElementsByClassName(id)
 
     clearInterval(colorChanger);
 
@@ -64,42 +82,72 @@ function handleMouseLeave(event, id) {
         clearTimeout(lastCallTimer)
     }
 
-    let imgCenter = {
-        x: img.getBoundingClientRect().x + img.getBoundingClientRect().width/2, 
-        y: img.getBoundingClientRect().y + img.getBoundingClientRect().height/2
+    imgCenter = {
+        x: img[0].x + img[0].width/2, 
+        y: img[0].y + img[0].height/2
     }
     let mousePoint = {
         x: event.type === "touchend"? event.changedTouches[0].clientX : event.clientX,
         y:  event.type === "touchend"? event.changedTouches[0].clientY : event.clientY
     }
 
-    img.style.transition  = `box-shadow 0.5s ease, scale 0.5s ease`
-    img.style.scale = `100%`
-    img.style.boxShadow  = `${(imgCenter.x-mousePoint.x)/10}px ${(imgCenter.y-mousePoint.y)/10}px 20px transparent`
+    for (let i = 0; i<img.length;i++) {
+        img[i].style.transition  = ` box-shadow 0.5s ease, scale 0.5s ease, filter 1s ease`
+        img[i].style.scale = `100%`
+        img[i].style.boxShadow  = `${Math.pow(-1, i)*(imgCenter.x-mousePoint.x)/5}px ${Math.pow(-1, (i+1)%3)*(imgCenter.y-mousePoint.y)/5}px 20px transparent`
+    }
+    img[1].style.filter = `blur(25px) drop-shadow(0 0 50px black)`
     lastCallTimer = setTimeout(() => {
-        img.style.transition  = `all 0s ease`
+        img[0].style.filter = `blur(0px)`
+        img[0].style.transition  = `box-shadow 0s ease` 
+        img[1].style.transition  = `box-shadow 0s ease`
     }
     , timerMs);
 }
 
 function handleMouseEnter(event, id) {
-    const img = document.getElementById(id)
+    const img = document.getElementsByClassName(id)
+    console.log(img);
 
-    colorChanger = setInterval(() => {
-        color = getRandomColor()
-        img.style.boxShadow = `${(imgCenter.x-mousePoint.x)/10}px ${(imgCenter.y-mousePoint.y)/10}px ${max}px ${color}`
-    }, 500)
+    imgCenter = {
+        x: img[0].x + img[0].width/2, 
+        y: img[0].y + img[0].height/2
+    }
+    mousePoint = {
+        x: event.type === "touchstart"? event.touches[0].clientX : event.clientX,
+        y:  event.type === "touchstart"? event.touches[0].clientY : event.clientY,
+    }
+
+    colorChanger = setInterval(() => {    
+        for (let i = 0; i<img.length;i++) {
+            img[1].style.filter = `blur(25px) drop-shadow(0 0 2px black)`
+            if (started)
+                img[i].style.transition  = `box-shadow 0.6s ease`
+            color[i] = getRandomColor()
+            img[i].style.boxShadow  = `${Math.pow(-1, i+1)*(imgCenter.x-mousePoint.x)/5}px ${Math.pow(-1, (i+1)%3)*(imgCenter.y-mousePoint.y)/5}px ${max}px ${color[i]}66`
+        }
+    }, 1000)
 
     if (previousCall && lastCall - previousCall <= timerMs) {
         clearTimeout(lastCallTimer)
     }
-    console.log(event);
+    
+    started = false
 
-    img.style.transition  = ` scale 0.5s ease`
-    img.style.scale = `150%`
+    for (let i = 0; i<img.length;i++) {
+        img[i].style.scale = `150%`
+        img[i].style.transition = `scale 0.5s ease, filter 0.5s ease`
+        img[i].style.boxShadow = `${Math.pow(-1, i+1)*(imgCenter.x-mousePoint.x)/10}px ${Math.pow(-1, i+1)*(imgCenter.y-mousePoint.y)/10}px 20px transparent`
+    }
+    img[1].style.scale = `175%`
+    img[1].style.filter  = `blur(25px) drop-shadow(0 0 25px black)`
 
-    lastCallTimer = setTimeout(() =>
-        img.style.transition  = `all 0s ease`
+    lastCallTimer = setTimeout(() => {
+        for (let i = 0; i<img.length;i++) {
+            img[i].style.transition  = `scale 0s ease`
+        }
+        started = true
+    }
     , timerMs);
 }
 

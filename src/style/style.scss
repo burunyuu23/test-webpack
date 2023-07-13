@@ -73,7 +73,7 @@ button {
     display: flex;
     justify-content: center;
 }
-#aster__img {
+.aster__img {
     @media only screen and (min-width: 500px) {
         @include image(300px, 300px, 50px);
     }
@@ -81,5 +81,8 @@ button {
         @include image(175px, 175px, 50px);
     }
     position: absolute;
+}
+#truly__aster {
+    z-index: 1;
 }
 
