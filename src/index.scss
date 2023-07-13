@@ -1,0 +1,30 @@
+* {
+    background-color: white;
+    margin: 0;
+}
+
+@mixin container() {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+}
+
+header {
+    background-color: teal;
+    height: 50px;
+    width: 100vw;
+
+    font-size: 50px;
+    color: white;
+
+    @include container();
+}
+
+.app {
+    background-color: white;
+    margin: 0;
+
+    &__content{
+        @include container();
+    }
+}
