@@ -1,0 +1,7 @@
+@mixin container() {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+}
+
+$header_clr: teal;
